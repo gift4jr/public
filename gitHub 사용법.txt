@@ -1,0 +1,43 @@
+--------------------------------------------------------------------------
+# private 폴더 지정
+cd MySolution/src
+git init
+git add .
+git commit -m "Initial commit for private source code"
+git remote add origin https://github.com/gift4jr/private.git
+git branch
+git branch -m master main # 로컬 브랜치명이 master 이면, git hub의 브랜치명인 main과 같은 명으로 변경 
+git push -u origin main
+--------------------------------------------------------------------------
+# public 폴더 지정
+cd MySolution
+echo /src/ > .gitignore	# .gitignore에 따라 /src/는 제외되고 나머지 파일만 추가됨
+git init
+git add .             
+git commit -m "Initial commit excluding src folder"
+git remote add origin https://github.com/gift4jr/public.git
+git branch
+git branch -m master main # 로컬 브랜치명이 master 이면, git hub의 브랜치명인 main과 같은 명으로 변경 
+git push -u origin main
+--------------------------------------------------------------------------
+# private 폴더를 public 폴더의 서브모듈로 연결
+echo #/src/ > .gitignore	# .gitignore에 따라 /src/ 제외 해제
+git submodule add https://github.com/gift4jr/private.git src
+git commit -am "Add src folder as private submodule"
+git push -u origin main
+--------------------------------------------------------------------------
+# 최초 클론 시
+git clone --recurse-submodules https://github.com/gift4jr/public.git
+
+# src/ 변경사항 반영
+cd src
+git add .
+git commit -m "Update private code"
+git push
+
+cd ..
+git add src
+git commit -m "Update submodule pointer"
+git push
+--------------------------------------------------------------------------
+
